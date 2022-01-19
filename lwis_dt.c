@@ -36,7 +36,7 @@ static int parse_gpios(struct lwis_device *lwis_dev, char *name, bool *is_presen
 {
 	int count;
 	struct device *dev;
-	struct device_node *dev_node;
+	struct device_node __maybe_unused *dev_node;
 	struct gpio_descs *list;
 
 	*is_present = false;
@@ -555,7 +555,7 @@ error_parse_phy:
 
 static void parse_bitwidths(struct lwis_device *lwis_dev)
 {
-	int ret;
+	int __maybe_unused ret;
 	struct device *dev;
 	struct device_node *dev_node;
 	u32 addr_bitwidth = 32;
