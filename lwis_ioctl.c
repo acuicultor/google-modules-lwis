@@ -1562,14 +1562,14 @@ static DEFINE_MUTEX(lock_flash_set);
 static void flash_set(bool on) {
         mutex_lock(&lock_flash_set);
         if (on) {
-            int ret = 0;
+            int ret __maybe_unused = 0;
             ret = lwis_dev_flash->vops.register_io(lwis_dev_flash, &on_e_1, lwis_dev_flash->native_value_bitwidth);
             ret = lwis_dev_flash->vops.register_io(lwis_dev_flash, &on_e_2, lwis_dev_flash->native_value_bitwidth);
             ret = lwis_dev_flash->vops.register_io(lwis_dev_flash, &on_e_3, lwis_dev_flash->native_value_bitwidth);
             ret = lwis_dev_flash->vops.register_io(lwis_dev_flash, &on_e_4, lwis_dev_flash->native_value_bitwidth);
             ret = lwis_dev_flash->vops.register_io(lwis_dev_flash, &on_e_5, lwis_dev_flash->native_value_bitwidth);
         } else {
-            int ret = 0;
+            int ret __maybe_unused = 0;
             ret = lwis_dev_flash->vops.register_io(lwis_dev_flash, &off_e_1, lwis_dev_flash->native_value_bitwidth);
         }
         mutex_unlock(&lock_flash_set);
