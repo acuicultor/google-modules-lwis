@@ -223,7 +223,7 @@ static int ioctl_get_device_info(struct lwis_device *lwis_dev, struct lwis_devic
 static int register_read(struct lwis_device *lwis_dev, struct lwis_io_entry *read_entry,
 			 struct lwis_io_entry *user_msg)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	uint8_t *user_buf;
 	bool batch_mode = false;
 
@@ -279,7 +279,7 @@ reg_read_exit:
 
 static int register_write(struct lwis_device *lwis_dev, struct lwis_io_entry *write_entry)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	uint8_t *user_buf;
 	bool batch_mode = false;
 
@@ -331,7 +331,7 @@ reg_write_exit:
 
 static int register_modify(struct lwis_device *lwis_dev, struct lwis_io_entry *modify_entry)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 
 	ret = lwis_dev->vops.register_io(lwis_dev, modify_entry, lwis_dev->native_value_bitwidth);
 	if (ret) {
@@ -349,7 +349,7 @@ static int register_modify(struct lwis_device *lwis_dev, struct lwis_io_entry *m
 static int copy_io_entries(struct lwis_device *lwis_dev, struct lwis_io_entries *user_msg,
 			   struct lwis_io_entries *k_msg, struct lwis_io_entry **k_entries)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	struct lwis_io_entry *io_entries;
 	uint32_t buf_size;
 
@@ -389,7 +389,7 @@ static int synchronous_process_io_entries(struct lwis_device *lwis_dev, int num_
 					  struct lwis_io_entry *io_entries,
 					  struct lwis_io_entry *user_msg)
 {
-	int ret = 0, i = 0;
+	int __maybe_unused ret = 0, i = 0;
 
 	/* Use write memory barrier at the beginning of I/O entries if the access protocol
 	 * allows it */
@@ -439,7 +439,7 @@ exit:
 
 static int ioctl_reg_io(struct lwis_device *lwis_dev, struct lwis_io_entries *user_msg)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	struct lwis_io_entries k_msg;
 	struct lwis_io_entry *k_entries = NULL;
 
@@ -508,7 +508,7 @@ error_alloc:
 
 static int ioctl_buffer_free(struct lwis_client *lwis_client, int __user *msg)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	int fd;
 	struct lwis_allocated_buffer *buffer;
 	struct lwis_device *lwis_dev = lwis_client->lwis_dev;
@@ -615,7 +615,7 @@ static int ioctl_buffer_disenroll(struct lwis_client *lwis_client,
 static int ioctl_buffer_cpu_access(struct lwis_client *lwis_client,
 				   struct lwis_buffer_cpu_access_op __user *msg)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	struct lwis_buffer_cpu_access_op op;
 	struct lwis_device *lwis_dev = lwis_client->lwis_dev;
 
@@ -635,7 +635,7 @@ static int ioctl_buffer_cpu_access(struct lwis_client *lwis_client,
 
 static int ioctl_device_enable(struct lwis_client *lwis_client)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	struct lwis_device *lwis_dev = lwis_client->lwis_dev;
 
 	if (lwis_client->is_enabled) {
@@ -679,7 +679,7 @@ error_locked:
 
 static int ioctl_device_disable(struct lwis_client *lwis_client)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	struct lwis_device *lwis_dev = lwis_client->lwis_dev;
 
 	if (!lwis_client->is_enabled) {
@@ -774,7 +774,7 @@ static int ioctl_echo(struct lwis_device *lwis_dev, struct lwis_echo __user *msg
 
 static int ioctl_device_reset(struct lwis_client *lwis_client, struct lwis_io_entries *user_msg)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	struct lwis_device *lwis_dev = lwis_client->lwis_dev;
 	struct lwis_io_entries k_msg;
 	struct lwis_io_entry *k_entries = NULL;
@@ -859,7 +859,7 @@ static int ioctl_event_control_set(struct lwis_client *lwis_client,
 	struct lwis_event_control_list k_msg;
 	struct lwis_event_control *k_event_controls;
 	struct lwis_device *lwis_dev = lwis_client->lwis_dev;
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	int i;
 	size_t buf_size;
 
@@ -996,7 +996,7 @@ static int ioctl_event_dequeue(struct lwis_client *lwis_client, struct lwis_even
 
 static int ioctl_time_query(struct lwis_client *client, int64_t __user *msg)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	int64_t timestamp = ktime_to_ns(lwis_get_time());
 
 	if (copy_to_user((void __user *)msg, &timestamp, sizeof(timestamp))) {
@@ -1011,7 +1011,7 @@ static int construct_io_entry(struct lwis_client *client, struct lwis_io_entry *
 			      size_t num_io_entries, struct lwis_io_entry **io_entries)
 {
 	int i;
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	int last_buf_alloc_idx = -1;
 	size_t entry_size;
 	struct lwis_io_entry *k_entries;
@@ -1125,7 +1125,7 @@ error_free_transaction:
 static int ioctl_transaction_submit(struct lwis_client *client,
 				    struct lwis_transaction_info __user *msg)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	unsigned long flags;
 	struct lwis_transaction *k_transaction = NULL;
 	struct lwis_transaction_info k_transaction_info;
@@ -1164,7 +1164,7 @@ static int ioctl_transaction_submit(struct lwis_client *client,
 static int ioctl_transaction_replace(struct lwis_client *client,
 				     struct lwis_transaction_info __user *msg)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	unsigned long flags;
 	struct lwis_transaction *k_transaction = NULL;
 	struct lwis_transaction_info k_transaction_info;
@@ -1197,7 +1197,7 @@ static int ioctl_transaction_replace(struct lwis_client *client,
 
 static int ioctl_transaction_cancel(struct lwis_client *client, int64_t __user *msg)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	int64_t id;
 	struct lwis_device *lwis_dev = client->lwis_dev;
 
@@ -1220,7 +1220,7 @@ static int construct_periodic_io(struct lwis_client *client,
 				 struct lwis_periodic_io_info __user *msg,
 				 struct lwis_periodic_io **periodic_io)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	struct lwis_periodic_io *k_periodic_io;
 	struct lwis_periodic_io_info *user_periodic_io;
 	struct lwis_device *lwis_dev = client->lwis_dev;
@@ -1261,7 +1261,7 @@ error_free_periodic_io:
 static int ioctl_periodic_io_submit(struct lwis_client *client,
 				    struct lwis_periodic_io_info __user *msg)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	struct lwis_periodic_io *k_periodic_io = NULL;
 	struct lwis_device *lwis_dev = client->lwis_dev;
 
@@ -1293,7 +1293,7 @@ static int ioctl_periodic_io_submit(struct lwis_client *client,
 
 static int ioctl_periodic_io_cancel(struct lwis_client *client, int64_t __user *msg)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	int64_t id;
 	struct lwis_device *lwis_dev = client->lwis_dev;
 
@@ -1352,7 +1352,7 @@ static int ioctl_dpm_qos_update(struct lwis_device *lwis_dev,
 {
 	struct lwis_dpm_qos_requirements k_msg;
 	struct lwis_qos_setting *k_qos_settings;
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	int i;
 	size_t buf_size;
 
@@ -1441,7 +1441,7 @@ static void uci_call_handler(char* event, int num_param[], char* str_param);
 #endif
 int lwis_ioctl_handler(struct lwis_client *lwis_client, unsigned int type, unsigned long param)
 {
-	int ret = 0;
+	int __maybe_unused ret = 0;
 	bool device_disabled;
 	struct lwis_device *lwis_dev = lwis_client->lwis_dev;
 
@@ -1613,14 +1613,14 @@ static DEFINE_MUTEX(lock_flash_set);
 static void flash_set(bool on) {
         mutex_lock(&lock_flash_set);
         if (on) {
-            int ret = 0;
+            int __maybe_unused ret = 0;
             ret = lwis_dev_flash->vops.register_io(lwis_dev_flash, &on_e_1, lwis_dev_flash->native_value_bitwidth);
             ret = lwis_dev_flash->vops.register_io(lwis_dev_flash, &on_e_2, lwis_dev_flash->native_value_bitwidth);
             ret = lwis_dev_flash->vops.register_io(lwis_dev_flash, &on_e_3, lwis_dev_flash->native_value_bitwidth);
             ret = lwis_dev_flash->vops.register_io(lwis_dev_flash, &on_e_4, lwis_dev_flash->native_value_bitwidth);
             ret = lwis_dev_flash->vops.register_io(lwis_dev_flash, &on_e_5, lwis_dev_flash->native_value_bitwidth);
         } else {
-            int ret = 0;
+            int __maybe_unused ret = 0;
             ret = lwis_dev_flash->vops.register_io(lwis_dev_flash, &off_e_1, lwis_dev_flash->native_value_bitwidth);
         }
         mutex_unlock(&lock_flash_set);
